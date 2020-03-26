@@ -64,9 +64,6 @@ public class ResultVo implements Serializable {
      * @return
      */
     public static ResultVo fail(String failMsg,Object... data){
-        if(data==null){
-            return new ResultVo(ResultCode.CUSTOM_FAIL, failMsg);
-        }
         ResultVo resultVo = new ResultVo(ResultCode.CUSTOM_FAIL, failMsg);
         resultVo.data =integrationData(data);
         return resultVo;
@@ -101,9 +98,6 @@ public class ResultVo implements Serializable {
      * @return
      */
     public static ResultVo sysFail(String failMsg,Object... data){
-        if(data==null){
-            return new ResultVo(ResultCode.FAIL, failMsg);
-        }
         ResultVo resultVo = new ResultVo(ResultCode.FAIL, failMsg);
         resultVo.data =integrationData(data);
         return resultVo;
@@ -118,7 +112,7 @@ public class ResultVo implements Serializable {
      */
     private static Object integrationData(Object... data){
 
-        if(data ==null){
+        if(data==null||data.length==0){
             return null;
         }
 

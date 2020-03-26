@@ -3,3 +3,7 @@ server:
 spring:
   application:
     name: "zdc"
+
+  devtools:
+    restart:
+      enabled:  true
