@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice //此注解表示开启了全局异常捕获 返回的信息写入到Response的Body中
 //@ControllerAdvice //此注解表示开启了全局异常捕获
 @Slf4j
-public class AllExceptionHandler {
+public class AllExceptionHandler{
+//public class AllExceptionHandler extends ResponseEntityExceptionHandler {  //ResponseEntityExceptionHandler此类中存在部分异常,适当的考虑重写
 
 
     @ExceptionHandler(value =CustomException.class)
@@ -26,5 +27,7 @@ public class AllExceptionHandler {
 
 
 
-
+    public AllExceptionHandler() {
+        super();
+    }
 }

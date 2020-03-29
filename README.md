@@ -6,12 +6,12 @@
 
 
 
-##使用说明
+##一,拦截controller中的错误---- zdc.enterprise.constants.AllExceptionHandler
 
 
-### 一.@RestControllerAdvice与@ControllerAdvice对比
+### 1.@RestControllerAdvice与@ControllerAdvice对比
 
-#### 1都可以指向控制器的一个子集
+#### 1)都可以指向控制器的一个子集
 ```java
 // 指向所有带有注解@RestController的控制器
 @ControllerAdvice(annotations = RestController.class)
@@ -26,7 +26,7 @@ public class BasePackageAdvice {}
 public class AssignableTypesAdvice {}
 ```
 
-#### 2区别
+#### 2)区别
 @RestControllerAdvice是@Controller和ResponseBody的集合
 
 #### javadoc
@@ -92,5 +92,14 @@ public class AssignableTypesAdvice {}
  *
 ```
 
-### 二.ExceptionHandler
+### 2.ExceptionHandler
 存在多个ExceptionHandler时,有优先级的,越细化的判断优先级越高
+
+
+##二,拦截404或者服务器错误等未进入controller的错误 -- zdc.enterprise.controller.OtherExceptionHandler
+
+## 三,filter中的错误----zdc.enterprise.constants.MyFilter
+1),通过转发或者重定向到/error接口(未测试)
+2),抛异常然后通过OtherExceptionHandler返回数据
+3),通过直接向response中写数据返回,此处需要在之前做跨域
+
