@@ -19,9 +19,7 @@ public class MyHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler ) throws Exception {
 
-        if(System.currentTimeMillis()%2==0){
-            throw new CustomException("MyHandlerInterceptor未通过抛异常");
-        }
+        //throw new CustomException("MyHandlerInterceptor未通过抛异常");
 
         return true;
     }
