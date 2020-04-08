@@ -5,10 +5,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.List;
 
 @RestControllerAdvice  //此注解表示开启了全局异常捕获 返回的信息写入到Response的Body中
 //@ControllerAdvice @ResponseBody//此注解表示开启了全局异常捕获
@@ -50,13 +53,28 @@ public class AllExceptionHandler extends ResponseEntityExceptionHandler {  //Res
      */
     @Override
     protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String defaultMessage = "参数异常" ;
-        try {
-            defaultMessage = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        StringBuffer defaultMessage = new StringBuffer("参数异常");
+
+        List<ObjectError> list = ex.getBindingResult().getAllErrors();
+        if(list!=null && list.size()>0){
+            defaultMessage.append(":")  ;
+            try {
+                int i=0;
+                for (ObjectError error : list) {
+                    if(i>0){
+                        defaultMessage.append(",");
+                    }
+                    defaultMessage.append(error.getDefaultMessage());
+
+                    i++;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return super.handleExceptionInternal(ex,ResultVo.fail(defaultMessage), headers, status, request);
+
+        return super.handleExceptionInternal(ex,ResultVo.fail(defaultMessage.toString()), headers, status, request);
     }
 
     public AllExceptionHandler() {

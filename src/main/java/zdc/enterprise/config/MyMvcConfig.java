@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.Formatter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -59,7 +60,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
     }
 
     /***
-     * 时间格式入参类型转换
+     * 时间格式入参类型转换 StringUtils建议使用apache的isBlank做判断
      * @param registry
      */
     @Override
@@ -72,6 +73,9 @@ public class MyMvcConfig implements WebMvcConfigurer {
             }
             @Override
             public LocalDate parse(String s, Locale locale) {
+                if(StringUtils.isEmpty(s)){
+                    return null;
+                }
                 return LocalDate.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             }
         });
@@ -83,6 +87,9 @@ public class MyMvcConfig implements WebMvcConfigurer {
             }
             @Override
             public LocalDateTime parse(String s, Locale locale) {
+                if(StringUtils.isEmpty(s)){
+                    return null;
+                }
                 return LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             }
         });
@@ -94,6 +101,9 @@ public class MyMvcConfig implements WebMvcConfigurer {
             }
             @Override
             public LocalTime parse(String s, Locale locale) {
+                if(StringUtils.isEmpty(s)){
+                    return null;
+                }
                 return LocalTime.parse(s, DateTimeFormatter.ofPattern("HH:mm:ss"));
             }
         });
@@ -113,6 +123,11 @@ public class MyMvcConfig implements WebMvcConfigurer {
 
             @Override
             public Date parse(String s, Locale locale) throws ParseException {
+
+                if(StringUtils.isEmpty(s)){
+                    return null;
+                }
+
                 if (Pattern.matches(pattern_date,s)) {
                     return sdf_date.parse(s);
                 }
