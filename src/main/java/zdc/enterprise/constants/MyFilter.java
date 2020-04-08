@@ -17,7 +17,7 @@ public class MyFilter implements Filter {
 
        //  throw new CustomException("通过MyFilter,抛异常返回值");
 
-
+        chain.doFilter(request,response);
     }
 
     @Override

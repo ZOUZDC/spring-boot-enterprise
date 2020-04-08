@@ -24,12 +24,9 @@ public class OtherExceptionHandler implements ErrorController {
         String errorMsg = "出现错误";
 
         if (statusCode == null) {
-            errorMsg = "服务器内部错误";
+            return ResultVo.sysFail("服务器未知的内部错误");
         }
-        //针对MyFilter中的转发异常
-        if(statusCode==5001){
-            return ResultVo.fail(""+request.getAttribute("javax.servlet.error.status_msg"));
-        }
+
         //针对MyFilter中的CustomException异常
         if(statusCode==500 && request.getAttribute("javax.servlet.error.exception") instanceof CustomException){
             return ResultVo.fail(((Exception)request.getAttribute("javax.servlet.error.exception")).getMessage());

@@ -12,13 +12,6 @@ import zdc.enterprise.constants.ResultVo;
 @RequestMapping("/rest")
 public class HelloRestController {
 
-    @GetMapping("/sayHello")
-    public ResultVo getSayHello(String name){
-        log.info("请求值---{}",name);
-        if(name ==null){
-            throw new CustomException("name is null");
-        }
-        return ResultVo.success(String.format("%s HELLLO", name));
-    }
+
 
 }
