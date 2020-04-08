@@ -31,8 +31,10 @@ public class MyMvcConfig implements WebMvcConfigurer {
     }
 
 
-
-    //跨域
+    /***
+     * 跨域处理
+     * @param registry
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -45,7 +47,10 @@ public class MyMvcConfig implements WebMvcConfigurer {
     }
 
 
-    //添加拦截器
+    /***
+     * 添加拦截器
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getLoginHandlerInterceptor()).addPathPatterns("/**")
@@ -53,6 +58,10 @@ public class MyMvcConfig implements WebMvcConfigurer {
 
     }
 
+    /***
+     * 时间格式入参类型转换
+     * @param registry
+     */
     @Override
     public void addFormatters(FormatterRegistry registry) {
         //LocalDate 类型
