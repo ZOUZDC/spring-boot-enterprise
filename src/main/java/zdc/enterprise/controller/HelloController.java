@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import zdc.enterprise.constants.ResultVo;
 import zdc.enterprise.service.HelloService;
 
 @RestController
@@ -22,7 +23,7 @@ public class HelloController {
     }
 
     @PostMapping("/t2")
-    public String t2(){
-        return "T2";
+    public ResultVo t2(){
+        return ResultVo.success();
     }
 }
