@@ -7,7 +7,7 @@ import java.util.Map;
 public class TempUtil {
 
 
-    public static Map<String, String> sysParams;
+    public static Map sysParams;
     static {
         //系统需要的参量
         sysParams = new HashMap<String, String>();
