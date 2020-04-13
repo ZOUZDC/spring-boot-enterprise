@@ -3,7 +3,7 @@
 
     <!--定义日志文件的存储地址 尽量不要在 LogBack 的配置中使用相对路径-->
     <!--<property name="LOG_HOME" value="./logs" />-->
-    <property name="LOG_HOME" value="/J:/logs/" />
+    <property name="LOG_HOME" value="./logs/" />
 
     <!--控制台日志， 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -53,7 +53,7 @@
     <!-- 日志输出级别 -->
     <root level="error">
    <!--  <appender-ref ref="STDOUT" />-->
-        <appender-ref ref="FILE_ROLL"/>
+        <appender-ref ref="debug"/>
     </root>
 
 </configuration>
