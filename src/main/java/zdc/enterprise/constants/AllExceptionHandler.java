@@ -1,23 +1,16 @@
 package zdc.enterprise.constants;
 
-import com.sun.prism.impl.BaseContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.MethodParameter;
-import org.springframework.http.MediaType;
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import java.util.concurrent.Executor;
+import java.util.List;
 
 @RestControllerAdvice //此注解表示开启了全局异常捕获 返回的信息写入到Response的Body中
-//@ControllerAdvice //此注解表示开启了全局异常捕获
 @Slf4j
-//public class AllExceptionHandler implements ResponseBodyAdvice {
 public class AllExceptionHandler{
-//public class AllExceptionHandler extends ResponseEntityExceptionHandler {  //ResponseEntityExceptionHandler此类中存在部分异常,适当的考虑重写
 
 
     @ExceptionHandler(value =CustomException.class)
@@ -34,24 +27,39 @@ public class AllExceptionHandler{
 
     }
 
+    /*-------------------------系统默认的异常--------------------------*/
 
+    /**
+     * 重写入参验证的异常方法
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = org.springframework.validation.BindException.class)
+    public ResultVo bindExceptionHandle(BindException ex){
+        log.info("------------------未知的异常---------------------'");
+        StringBuffer defaultMessage = new StringBuffer("参数异常");
 
-    public AllExceptionHandler() {
-        super();
-    }
+        List<ObjectError> list = ex.getBindingResult().getAllErrors();
+        if(list!=null && list.size()>0){
+            defaultMessage.append(":")  ;
+            try {
+                int i=0;
+                for (ObjectError error : list) {
+                    if(i>0){
+                        defaultMessage.append(",");
+                    }
+                    defaultMessage.append(error.getDefaultMessage());
 
-   /* @Override
-    public boolean supports(MethodParameter returnType, Class converterType) {
-        //是否拦截
-        return true;
-    }
-    @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-
-        if(body instanceof ResultVo){
-            return body;
+                    i++;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        //需要根据body数据来区分是正常还是异常
-        return ResultVo.success(body);
-    }*/
+        return ResultVo.fail(defaultMessage.toString());
+
+    }
+
+
+
 }

@@ -17,17 +17,13 @@ public class MyHandlerInterceptor implements HandlerInterceptor {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler ) throws Exception {
-
-        if(System.currentTimeMillis()%2==0){
-            throw new CustomException("MyHandlerInterceptor未通过抛异常");
-        }
+    public boolean preHandle(HttpServletRequest rq, HttpServletResponse response, Object handler ) throws Exception {
 
         return true;
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest rq, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
     }
 }
