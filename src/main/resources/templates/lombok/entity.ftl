@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ${sysFieldTableNameUp} {
+public class ${sysFieldTableName} {
 
 <#list sysParams as param>
     // ${param.fieldNote}

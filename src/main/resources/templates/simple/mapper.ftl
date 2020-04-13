@@ -9,10 +9,10 @@
         </#list>
     </resultMap>
 
-    <!-- 手动去掉最后一个逗号和本注释 -->
+
     <sql id="Base_Column_List">
         <#list sysParams as param>
-            `${param.columnName}`,
+            `${param.columnName}` <#if param_has_next>,</#if>
         </#list>
     </sql>
 

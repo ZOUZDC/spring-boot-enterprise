@@ -37,6 +37,21 @@ public class TempInfo {
      */
     private Map<String,Object> customParams =new HashMap<>();
 
+    public TempInfo(String templatePath, String targetPath,String targetFileTypeSuffix) {
+        this.templatePath = templatePath;
+        this.targetPath = targetPath;
+        this.targetFilePrefix = "";
+        this.targetFileSuffix = "";
+        this.targetFileTypeSuffix = targetFileTypeSuffix;
+    }
+
+    public TempInfo(String templatePath, String targetPath) {
+        this.templatePath = templatePath;
+        this.targetPath = targetPath;
+        this.targetFilePrefix = "";
+        this.targetFileSuffix = "";
+        this.targetFileTypeSuffix = ".java";
+    }
 
 
 

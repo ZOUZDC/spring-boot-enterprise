@@ -1,7 +1,7 @@
 package ${interfaceName?lower_case};
 
 
-public class ${sysFieldTableNameUp} {
+public class ${sysFieldTableName} {
 
 <#list sysParams as param>
 	// ${param.fieldNote}
