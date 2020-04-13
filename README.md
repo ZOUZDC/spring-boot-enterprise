@@ -11,7 +11,8 @@
 ## 一.入参验证及其异常捕获
 
 ### 1) 异常处理请看902全局异常处理` 
-在这里`AllExceptionHandler`继承了`ResponseEntityExceptionHandler`重写了`handleBindException`方法.
+在这里`AllExceptionHandler` 捕获并重写了`BindException`异常.
+不要轻易继承`ResponseEntityExceptionHandler`该类
 
 ### 2) 简单的参数类型验证请看 StudentSimpleDto 
 在这里建议只做数据类型方面的判断,如果存在非空 非null之类的判断 则该类可能不会在增删改查等方法中通用.

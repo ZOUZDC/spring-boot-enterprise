@@ -24,7 +24,7 @@ public class ParamsFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
+        System.out.println("ParamsFilter");
         //一个简陋的过滤
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String url = req.getRequestURI();

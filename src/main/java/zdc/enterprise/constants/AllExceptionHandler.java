@@ -1,15 +1,10 @@
 package zdc.enterprise.constants;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 
@@ -17,16 +12,9 @@ import java.util.List;
 //@ControllerAdvice @ResponseBody//此注解表示开启了全局异常捕获
 @Slf4j
 //public class AllExceptionHandler{
-public class AllExceptionHandler extends ResponseEntityExceptionHandler {  //ResponseEntityExceptionHandler此类中存在部分异常,适当的考虑重写
+public class AllExceptionHandler   {  //ResponseEntityExceptionHandler 此类中存在部分异常  可以考虑自定义异常 会好看一点
 
-    /*@ExceptionHandler(value =org.springframework.validation.BindException.class)
-    public ResultVo BindException(BindException e){
-        //解析比较麻烦直接切割
-        String msg = e.getMessage();
-        return ResultVo.fail(msg.substring(msg.lastIndexOf("[")+1,msg.lastIndexOf("]")));
-    }
 
-*/
 
     @ExceptionHandler(value =CustomException.class)
     public ResultVo customExceptionHandle(Exception e){
@@ -42,18 +30,16 @@ public class AllExceptionHandler extends ResponseEntityExceptionHandler {  //Res
 
     }
 
+    /*-------------------------系统默认的异常--------------------------*/
 
-    /***
-     * 重写入参验证的异常方法,抛出指定格式数据
+    /**
+     * 重写入参验证的异常方法
      * @param ex
-     * @param headers
-     * @param status
-     * @param request
      * @return
      */
-    @Override
-    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
+    @ExceptionHandler(value = org.springframework.validation.BindException.class)
+    public ResultVo bindExceptionHandle(BindException ex){
+        log.info("------------------未知的异常---------------------'");
         StringBuffer defaultMessage = new StringBuffer("参数异常");
 
         List<ObjectError> list = ex.getBindingResult().getAllErrors();
@@ -73,11 +59,10 @@ public class AllExceptionHandler extends ResponseEntityExceptionHandler {  //Res
                 e.printStackTrace();
             }
         }
+        return ResultVo.fail(defaultMessage.toString());
 
-        return super.handleExceptionInternal(ex,ResultVo.fail(defaultMessage.toString()), headers, status, request);
     }
 
-    public AllExceptionHandler() {
-        super();
-    }
+
+
 }
