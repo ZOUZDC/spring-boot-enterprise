@@ -51,9 +51,9 @@
     <logger name="org.springframework.jndi" level="INFO"/>
 
     <!-- 日志输出级别 -->
-    <root level="error">
-   <!--  <appender-ref ref="STDOUT" />-->
-        <appender-ref ref="debug"/>
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+       <!-- <appender-ref ref="FILE_ROLL"/>-->
     </root>
 
 </configuration>
