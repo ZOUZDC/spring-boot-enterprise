@@ -4,7 +4,9 @@
 |---|---|---|---|---|
 |1|集成swagger|集成swagger,标准显示和分组显示|60%||
 
-集成第三方离线文档的生成没有做https://blog.csdn.net/u011317663/article/details/82024656.
+集成第三方离线文档的生成没有做
+https://blog.csdn.net/u011317663/article/details/82024656
+https://www.cnblogs.com/weijs/p/11556086.html
 
 ### swagger优缺点及其个人理解
 #### 优点:
