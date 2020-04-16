@@ -16,13 +16,13 @@ public class AutoCode {
 
         //数据库配置
         tempConfig.setDatabaseInfo("com.mysql.cj.jdbc.Driver",
-                "jdbc:mysql://localhost:3306/bigdata_test?serverTimezone=UTC",
-                "devuser",
-                "devuser");
+                "jdbc:mysql:///zdc_test?serverTimezone=UTC",
+                "root",
+                "123123");
 
 
         //需要生成文件的表
-        tempConfig.tableNames = new String[]{"d_field_check"};
+        tempConfig.tableNames = new String[]{"student"};
 
         //全局自定义参量
         //tempConfig.setCustomParams();
