@@ -22,8 +22,11 @@ public class AllExceptionHandler{
 
     @ExceptionHandler(value = Exception.class)
     public ResultVo exceptionHandle(Exception e){
-        log.info("------------------未知的异常---------------------'");
-        return ResultVo.sysFail(e.getMessage());
+        log.info("------------------未知的异常---------------------{}", e);
+        //三张格式根据喜好选座位
+        //return ResultVo.sysFail(e.getClass().getName());
+        //return ResultVo.sysFail("系统异常",e.getClass().getName());
+        return ResultVo.sysFail("系统异常",e.getClass().getName(),e.getStackTrace().length>0?e.getStackTrace()[0]:"");
 
     }
 
