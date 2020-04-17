@@ -44,22 +44,43 @@
 
 
 
-    <!-- 查询已存在 xyz是要验证的字段名 -->
-    <select id="exist" resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Column_List" />
-        FROM ${sysTableName}
-        WHERE 1=1
-        AND XYZ = ${r'#{'}xyz}
+    <!--  请根据此方法,书写自己的update方法,不可以直接使用-->
+    <update id="update${sysFieldTableName}ById">
+        UPDATE  `${sysTableName}` SET
+
         <#list sysParams as param>
-            <#if param.isKey == "true">
-                <if test="${param.fieldName} != null">
-                    AND ${param.columnName} != ${r'#{'}${param.fieldName}}
-                </if>
+              <#if param.columnName != "id">
+                 <if test="${param.columnName} != null and ${param.columnName} != ''">  `${param.columnName}` =  ${r'#{'} ${param.fieldName}}   <#if param_has_next>,</#if>  </if>
+              </#if>
+        </#list>
+
+         where
+         id =${r'#{id}'}}
+    </update>
+
+
+
+    <!--  请根据此方法,书写自己的update方法,不可以直接使用-->
+    <insert id="save${sysFieldTableName}">
+        INSERT INTO `${sysTableName}`
+
+        <#list sysParams as param>
+            <#if param.columnName != "id">
+                <if test="${param.columnName} != null and ${param.columnName} != ''">  `${param.columnName}` <#if param_has_next>,</#if>  </if>
             </#if>
         </#list>
-    </select>
 
+        ) values (
 
+        <#list sysParams as param>
+            <#if param.columnName != "id">
+                <if test="${param.columnName} != null and ${param.columnName} != ''">    ${r'#{'} ${param.fieldName}}   <#if param_has_next>,</#if>  </if>
+            </#if>
+        </#list>
+    </insert>
+
+    <delete id="delete${sysFieldTableName}ById">
+        DELETE from `${sysTableName}` where id = ${r'#{id}'}}
+    </delete>
 
 </mapper>
