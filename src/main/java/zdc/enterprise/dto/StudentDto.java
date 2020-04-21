@@ -5,7 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import zdc.enterprise.constants.Dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,9 +17,11 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentSimpleDto {
+public class StudentDto {
 
     //主键id
+    @NotNull(message = "缺少id的信息", groups = {Dto.Update.class, Dto.Delete.class})
+    @Null(message = "id必须为空", groups = { Dto.Save.class})
     private Long id;
 
     //姓名
@@ -32,7 +38,9 @@ public class StudentSimpleDto {
     private LocalDate birthdate;
 
     //零花钱
+    @Min(value = 0,message = "你需要有点钱,即使骗骗我也好...")
     private BigDecimal money;
 
-
+    //其他信息
+    private String info;
 }

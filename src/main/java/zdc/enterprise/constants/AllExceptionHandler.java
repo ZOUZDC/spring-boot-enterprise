@@ -23,6 +23,7 @@ public class AllExceptionHandler{
     @ExceptionHandler(value = Exception.class)
     public ResultVo exceptionHandle(Exception e){
         log.info("------------------未知的异常---------------------'");
+        e.printStackTrace();
         return ResultVo.sysFail(e.getMessage());
 
     }

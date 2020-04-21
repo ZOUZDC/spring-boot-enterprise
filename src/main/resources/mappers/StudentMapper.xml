@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="zdc.enterprise.mapper.StudentMapper">
+
+    <resultMap type="zdc.enterprise.entity.Student" id="BaseResultMap">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="age" property="age" />
+        <result column="birthdate" property="birthdate" />
+        <result column="money" property="money" />
+        <result column="info" property="info" />
+    </resultMap>
+
+
+
+    <sql id="Base_Column_List">
+            `id` ,
+            `name` ,
+            `age` ,
+            `birthdate` ,
+            `money` ,
+            `info`
+    </sql>
+
+
+    <!-- 列表查询 -->
+    <select id="getStudentByParams" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM student
+        WHERE 1=1
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            AND name like  concat('%' , '#{name}' ,'%')
+        </if>
+        <if test="age != null">
+            AND age = #{age}
+        </if>
+        <if test="birthdate != null">
+            AND birthdate = #{birthdate}
+        </if>
+        <if test="money != null">
+            AND money = #{money}
+        </if>
+        <if test="info != null and info != ''">
+            AND info like concat('%' , '#{info}' ,'%')  /*请根据情况去判断是= 还是like 并删掉此句*/
+        </if>
+    </select>
+
+
+
+
+    <select id="getStudentPage" resultType="zdc.enterprise.entity.Student">
+
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM student
+        WHERE 1=1
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            AND name like  concat('%' , '#{name}' ,'%')
+        </if>
+        <if test="age != null">
+            AND age = #{age}
+        </if>
+        <if test="birthdate != null">
+            AND birthdate = #{birthdate}
+        </if>
+        <if test="money != null">
+            AND money = #{money}
+        </if>
+        <if test="info != null and info != ''">
+            AND info like concat('%' , '#{info}' ,'%')
+        </if>
+
+    </select>
+
+    <select id="getStudentPageCount" resultType="java.lang.Long">
+
+        SELECT
+             count(1) as count
+        FROM student
+        WHERE 1=1
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            AND name like '%' || #{name} || '%'
+        </if>
+        <if test="age != null">
+            AND age = #{age}
+        </if>
+        <if test="birthdate != null">
+            AND birthdate = #{birthdate}
+        </if>
+        <if test="money != null">
+            AND money = #{money}
+        </if>
+        <if test="info != null and info != ''">
+            AND info like concat('%' , '#{info}' ,'%')
+        </if>
+
+
+    </select>
+
+
+
+
+
+    <update id="updateStudentById">
+       UPDATE  `student` SET
+               `name`=#{name},
+               `age`=#{age},
+               `birthdate`=#{birthdate},
+               `money`=#{money},
+               `info`=#{info}
+         where
+         id =#{id}
+    </update>
+
+
+
+    <!--  请根据此方法,书写自己的update方法,不可以直接使用-->
+    <insert id="saveStudent"  keyProperty="id">
+        INSERT INTO `student` (
+          `name`,
+          `age`,
+          `birthdate`,
+          `money`,
+          `info`
+        ) values (
+           #{name},
+           #{age},
+           #{birthdate},
+           #{money},
+           #{info}
+        )
+    </insert>
+
+    <delete id="deleteStudentById">
+        DELETE from student where id = #{id}
+    </delete>
+
+</mapper>
