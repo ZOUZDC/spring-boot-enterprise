@@ -47,36 +47,32 @@
     <!--  请根据此方法,书写自己的update方法,不可以直接使用-->
     <update id="update${sysFieldTableName}ById">
         UPDATE  `${sysTableName}` SET
-
         <#list sysParams as param>
-              <#if param.columnName != "id">
-                 <if test="${param.columnName} != null and ${param.columnName} != ''">  `${param.columnName}` =  ${r'#{'} ${param.fieldName}}   <#if param_has_next>,</#if>  </if>
-              </#if>
+          <#if param.columnName != "id">
+               `${param.columnName}`=${r'#{'}${param.fieldName}}<#if param_has_next>,</#if>
+          </#if>
         </#list>
-
          where
-         id =${r'#{id}'}}
+         id =${r'#{id}'}
     </update>
 
 
 
     <!--  请根据此方法,书写自己的update方法,不可以直接使用-->
     <insert id="save${sysFieldTableName}">
-        INSERT INTO `${sysTableName}`
-
+        INSERT INTO `${sysTableName}` (
         <#list sysParams as param>
-            <#if param.columnName != "id">
-                <if test="${param.columnName} != null and ${param.columnName} != ''">  `${param.columnName}` <#if param_has_next>,</#if>  </if>
-            </#if>
+        <#if param.columnName != "id">
+          `${param.columnName}`<#if param_has_next>,</#if>
+        </#if>
         </#list>
-
         ) values (
-
         <#list sysParams as param>
-            <#if param.columnName != "id">
-                <if test="${param.columnName} != null and ${param.columnName} != ''">    ${r'#{'} ${param.fieldName}}   <#if param_has_next>,</#if>  </if>
-            </#if>
+        <#if param.columnName != "id">
+           ${r'#{'}${param.fieldName}}<#if param_has_next>,</#if>
+        </#if>
         </#list>
+        )
     </insert>
 
     <delete id="delete${sysFieldTableName}ById">
