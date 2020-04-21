@@ -10,6 +10,10 @@
 
 响应数据使用fastjson序列化 `MyMvcConfig` --> `extendMessageConverters`,
 
+因为我使用了fastjson所以我在pom中排除了`spring-boot-starter-json`,貌似没影响,
+
+使用idea插件`restfultoolkit`做测试的时候会自动将返回值中结果为null的过滤掉,这个需要注意!
+
 
 全局数据统一返回则需要配合全局异常来使用
 
