@@ -58,5 +58,22 @@ public interface StudentService {
      */
     int deleteStudentById(Long id);
 
+    /***
+     * Service异常判断
+     * @param student
+     * @return
+     */
+    int saveServiceException(Student student);
+
+    /***
+     * Service异常判断 try catch
+     * @param student
+     * @return
+     */
+    int saveServiceTryException(Student student);
+
+    int saveServiceTryException2(Student student);
+
+    int saveServiceOtherTryException(Student student);
 
 }
