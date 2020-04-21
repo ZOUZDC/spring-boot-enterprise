@@ -1,4 +1,4 @@
-package zdc.enterprise.config.Formatter;
+package zdc.enterprise.config.formatter;
 
 import org.springframework.format.Formatter;
 import org.springframework.util.StringUtils;
