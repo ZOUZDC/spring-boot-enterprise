@@ -25,7 +25,7 @@
         <#list sysParams as param>
             <#if param.fieldType == "String">
                 <if test="${param.fieldName} != null and ${param.fieldName} != ''">
-                    AND ${param.columnName} like concat ('%', '${r'#{'}${param.fieldName}}' , '%' )   /*请根据情况去判断是= 还是like 并删掉此句*/
+                    AND ${param.columnName} like concat ('%', ${r'#{'}${param.fieldName}} , '%' )   /*请根据情况去判断是= 还是like 并删掉此句*/
                 </if>
             <#elseif param.fieldType == "Date">
                 <if test="${param.fieldName}Start != null">
