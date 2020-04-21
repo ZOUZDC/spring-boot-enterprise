@@ -33,7 +33,7 @@
             AND id = #{id}
         </if>
         <if test="name != null and name != ''">
-            AND name like  concat('%' , '#{name}' ,'%')
+            AND name like  concat('%' , #{name} ,'%')
         </if>
         <if test="age != null">
             AND age = #{age}
@@ -45,7 +45,7 @@
             AND money = #{money}
         </if>
         <if test="info != null and info != ''">
-            AND info like concat('%' , '#{info}' ,'%')  /*请根据情况去判断是= 还是like 并删掉此句*/
+            AND info like concat('%' , #{info} ,'%')  /*请根据情况去判断是= 还是like 并删掉此句*/
         </if>
     </select>
 
@@ -58,25 +58,27 @@
         <include refid="Base_Column_List"></include>
         FROM student
         WHERE 1=1
-        <if test="id != null">
-            AND id = #{id}
+        <if test="studentDto.id != null">
+            AND id = #{studentDto.id}
         </if>
-        <if test="name != null and name != ''">
-            AND name like  concat('%' , '#{name}' ,'%')
+        <if test="studentDto.name != null and studentDto.name != ''">
+            AND name like  concat('%' , #{studentDto.name} ,'%')
         </if>
-        <if test="age != null">
-            AND age = #{age}
+        <if test="studentDto.age != null">
+            AND age = #{studentDto.age}
         </if>
-        <if test="birthdate != null">
-            AND birthdate = #{birthdate}
+        <if test="studentDto.birthdate != null">
+            AND birthdate = #{studentDto.birthdate}
         </if>
-        <if test="money != null">
-            AND money = #{money}
+        <if test="studentDto.money != null">
+            AND money = #{studentDto.money}
         </if>
-        <if test="info != null and info != ''">
-            AND info like concat('%' , '#{info}' ,'%')
+        <if test="studentDto.info != null and studentDto.info != ''">
+            AND info like concat('%' , #{studentDto.info} ,'%')
         </if>
-
+        <if test="page.fenye != null and page.fenye  ">
+            limit #{page.start} ,#{page.size}
+        </if>
     </select>
 
     <select id="getStudentPageCount" resultType="java.lang.Long">
@@ -89,7 +91,7 @@
             AND id = #{id}
         </if>
         <if test="name != null and name != ''">
-            AND name like '%' || #{name} || '%'
+            AND name like concat('%' , #{name} ,'%')
         </if>
         <if test="age != null">
             AND age = #{age}
@@ -101,7 +103,7 @@
             AND money = #{money}
         </if>
         <if test="info != null and info != ''">
-            AND info like concat('%' , '#{info}' ,'%')
+            AND info like concat('%' , #{info} ,'%')
         </if>
 
 

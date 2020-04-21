@@ -1,6 +1,6 @@
 package zdc.enterprise.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
+import zdc.enterprise.constants.Page;
 import zdc.enterprise.dto.StudentDto;
 import zdc.enterprise.entity.Student;
 
@@ -21,7 +21,7 @@ public interface StudentMapper {
      * @param studentDto
      * @return
      */
-    List<Student> getStudentPage(StudentDto studentDto);
+    List<Student> getStudentPage(StudentDto studentDto, Page page);
 
     /***
      * 分页查询总数

@@ -63,8 +63,9 @@ public class Page<T> {
         return fenye;
     }
 
-    public void setFenye(boolean fenye) {
+    public Page setFenye(boolean fenye) {
         this.fenye = fenye;
+        return this;
     }
 
     public List<T> getList() {

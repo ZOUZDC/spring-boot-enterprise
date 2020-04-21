@@ -22,13 +22,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getStudentPageList(StudentDto studentDto) {
-        return studentMapper.getStudentPage(studentDto);
+        return studentMapper.getStudentPage(studentDto,new Page().setFenye(true));
     }
 
     @Override
     public Page<Student> getStudentPage(StudentDto studentDto, Page page) {
 
-        List<Student> list = studentMapper.getStudentPage(studentDto);
+        List<Student> list = studentMapper.getStudentPage(studentDto,page);
         Long count =0L;
         if(list.size()!=0){
             count = studentMapper.getStudentPageCount(studentDto);
