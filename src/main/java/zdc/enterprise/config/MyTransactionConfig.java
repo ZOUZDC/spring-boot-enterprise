@@ -1,5 +1,6 @@
 package zdc.enterprise.config;
 
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -27,6 +28,7 @@ import java.util.Map;
  * NESTED ：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于 REQUIRED 。
 
  */
+@Aspect
 @Configuration
 public class MyTransactionConfig {
 
@@ -64,7 +66,7 @@ public class MyTransactionConfig {
 
 
         RuleBasedTransactionAttribute requireRule = new RuleBasedTransactionAttribute();
-        /*抛出异常后执行切点回滚*/
+        /*抛出异常后执行切点回滚 建议自定义异常*/
         requireRule.setRollbackRules(Collections.singletonList(new RollbackRuleAttribute(Exception.class)));
         /*PROPAGATION_REQUIRED:事务隔离性为1，若当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。这是默认值。 */
         requireRule.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);

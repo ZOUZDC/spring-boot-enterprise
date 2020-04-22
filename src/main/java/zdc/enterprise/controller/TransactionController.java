@@ -14,108 +14,88 @@ import zdc.enterprise.constants.ResultVo;
 import zdc.enterprise.dto.StudentDto;
 import zdc.enterprise.entity.Student;
 import zdc.enterprise.service.StudentService;
+import zdc.enterprise.service.TransactionService;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 /***
- * 事务测试
+ * 注解式事务 测试
+ * 测试此类时请先禁用MyTransactionConfig 该配置
+ * 当前事务属性均为REQUIRED ,如果不同则会有其他不一样的结果
  */
 @Slf4j
 @RestController
-@RequestMapping("/transact")
+@RequestMapping("/t1")
 public class TransactionController {
 
-    @Autowired(required = false)
-    private StudentService studentService;
+    private Student getOneStudent(String info){
+        return new Student(null,UUID.randomUUID().toString(),18,null,null,info);
+    };
 
+    @Autowired
+    private TransactionService transactionService;
 
-    @PostMapping("/saveStudent")
-    public ResultVo saveStudent( ){
-        String uuid = UUID.randomUUID().toString();
-        Student student = new Student(null, uuid, 18, LocalDate.now(), null, "controller保存");
-        studentService.saveStudent(student);
-        StudentDto read = new StudentDto();
-        read.setId(student.getId());
-        List<Student> studentInfo = studentService.getStudentByParams(read);
-        log.info("刚才保存的数据是{}",studentInfo);
-        return ResultVo.success(student);
+    /***
+     * 直接报错
+     * 结果:事务回滚
+     * @return
+     */
+    @PostMapping("/t1")
+    public ResultVo t1(){
+        transactionService.t1(getOneStudent(""),getOneStudent(""),getOneStudent(""));
+        return ResultVo.success();
     }
 
     /***
-     * controller抛异常不会影响事务
+     * try catch 异常不抛出 ,
+     * 结果:事务不回滚,数据插入成功
      * @return
      */
-    @PostMapping("/saveControllerException")
-    public ResultVo saveStudentControllerException( ){
-        String uuid = UUID.randomUUID().toString();
-        Student student = new Student(null, uuid, 18, LocalDate.now(), null, "saveStudentControllerException");
-        studentService.saveStudent(student);
-        StudentDto read = new StudentDto();
-        read.setId(student.getId());
-        List<Student> studentInfo = studentService.getStudentByParams(read);
-        log.info("刚才保存的数据是{}",studentInfo);
-        if(2/2==1){
-            throw  new CustomException("saveStudentControllerException");
-        }
-        return ResultVo.success(student);
+    @PostMapping("/t2")
+    public ResultVo t2(){
+        Student oneStudent = getOneStudent("");
+        transactionService.t2(getOneStudent(""),getOneStudent(""),getOneStudent(""));
+        return ResultVo.success(oneStudent);
     }
 
-    /**
-     * 需要在事务中运行@Transactional
-     * Service方法中抛出异常则该方法事务回滚
+    /***
+     * try catch 异常 抛出
+     * 结果:事务回滚
      * @return
      */
-    @PostMapping("/saveServiceException")
-    public ResultVo saveStudentServiceException( ){
-        String uuid = UUID.randomUUID().toString();
-        Student student = new Student(null, uuid, 18, LocalDate.now(), null, "saveStudentServiceException");
-        studentService.saveServiceException(student);
-        return ResultVo.success(student);
-    }
-   /**
-     * 需要在事务中运行@Transactional
-     * Service方法中抛出异常则该方法事务回滚
-    *  如果方法中存在trycatch则不会回滚 service中123都没有回滚
-     * @return
-     */
-    @PostMapping("/saveServiceTryException")
-    public ResultVo saveServiceTryException( ){
-        String uuid = UUID.randomUUID().toString();
-        Student student = new Student(null, uuid, 18, LocalDate.now(), null, "saveServiceTryException");
-        studentService.saveServiceTryException(student);
-        return ResultVo.success(student);
-    }
-
-    /**
-     * 需要在事务中运行@Transactional
-     * Service方法中抛出异常则该方法事务回滚
-     *  如果方法中存在trycatch则不会回滚 service中都没有回滚
-     * @return
-     */
-    @PostMapping("/saveServiceTryException2")
-    public ResultVo saveServiceTryException2( ){
-        String uuid = UUID.randomUUID().toString();
-        Student student = new Student(null, uuid, 18, LocalDate.now(), null, "saveServiceTryException");
-        studentService.saveServiceTryException2(student);
-        return ResultVo.success(student);
+    @PostMapping("/t3")
+    public ResultVo t3(){
+        Student oneStudent = getOneStudent("");
+        transactionService.t3(getOneStudent(""),getOneStudent(""),getOneStudent(""));
+        return ResultVo.success(oneStudent);
     }
 
 
-    /**
-     * 需要在事务中运行@Transactional
-     * Service中报错.当前方法中的和被调用的方法(即使有trycatch)都会回滚即使
+    /***
+     * try catch 异常 不抛出 其中一个是调用其他方法保存
+     * 结果:事务不回滚,数据插入成功
      * @return
      */
-    @PostMapping("/saveServiceOtherTryException")
-    public ResultVo saveServiceOtherTryException( ){
-        String uuid = UUID.randomUUID().toString();
-        Student student = new Student(null, uuid, 18, LocalDate.now(), null, "saveServiceTryException");
-        studentService.saveServiceOtherTryException(student);
-        return ResultVo.success(student);
+    @PostMapping("/t4")
+    public ResultVo t4(){
+        Student oneStudent = getOneStudent("");
+        transactionService.t4(getOneStudent(""),getOneStudent(""),getOneStudent(""));
+        return ResultVo.success(oneStudent);
     }
 
+    /***
+     * try catch 异常 抛出 其中一个是调用其他方法保存
+     * 结果:事务回滚,其他调用的方法数据也回滚
+     * @return
+     */
+    @PostMapping("/t5")
+    public ResultVo t5(){
+        Student oneStudent = getOneStudent("");
+        transactionService.t5(getOneStudent(""),getOneStudent(""),getOneStudent(""));
+        return ResultVo.success(oneStudent);
+    }
 
 
 }

@@ -4,15 +4,66 @@
 |---|---|---|---|---|
 |1|集成Mybatils和MybatisPlus|集成Mybatils和事务测试|90%||
 
+[TOC]
+## 一.连接mysql配置连接池
+#### 1.连接mysql
+```
+spring: 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver #mysql 8.0
+    url: jdbc:mysql:///zdc_test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123123
+```
+#### 2.配置hikari连接池
 
+```
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource #当前使用的数据源 Hikari ,当为Hikari的时候可以不写
+    hikari:
+      minimum-idle: 1 #	池中维护的最小空闲连接数 默认10 根据实际情况来
+      maximum-pool-size: 10 # 池中最大连接数    根据实际情况来
+      auto-commit: true  # 自动提交从池中返回的连接
+      idle-timeout: 600000 # 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟
+      max-lifetime: 1800000 # 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL
+      connection-timeout: 30000   # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒
+      connection-test-query: select 1
+      read-only: false      # 是否是只读
+```
 
-## Mybatis整合代码的位置
-#### 1.启动类
-添加
+#### 2.配置Druid连接池
+
+```
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource #当前使用的数据源 Hikari ,当为Hikari的时候可以不写
+    hikari:
+      minimum-idle: 1 #	池中维护的最小空闲连接数 默认10 根据实际情况来
+      maximum-pool-size: 10 # 池中最大连接数    根据实际情况来
+      auto-commit: true  # 自动提交从池中返回的连接
+      idle-timeout: 600000 # 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟
+      max-lifetime: 1800000 # 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL
+      connection-timeout: 30000   # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒
+      connection-test-query: select 1
+      read-only: false      # 是否是只读
+```
+
+## 二.Mybatis整合代码的位置
+#### 1.pom.xml
+```  
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>2.1.1</version>
+</dependency>
+```
+
+#### 2.启动类
 ```
 @MapperScan("zdc.enterprise.mapper") //mapper的接口包路径
 ```
-#### application.yml配置类
+#### 3.application.yml配置类
 ```
 mybatis:
   mapper-locations: "classpath:/mappers/*Mapper.xml"  //mapper.xml位置
@@ -22,21 +73,21 @@ mybatis:
 ```
 
 
-## 事务代码位置
-### 注解式事务
-#### 1.启动类
+## 三.事务代码位置
+### 1.注解式事务
+#### 1).启动类
 添加
 ```
 @EnableTransactionManagement   //开启事务
 ```
-#### Service实现类
+#### 2).Service实现类
 
 添加符合场景的 `@Transactional`,
 可以直接在class上面添加@Transactional,然后在非事务方法上添加`@Transactional(propagation=Propagation.SUPPORTS)`
 也可以只在事务方法上添加`@Transactional(propagation=Propagation.REQUIRED)` 不过容易忘
 
-### 编程式事务
-#### 1.pom.xml
+### 2.编程式事务
+#### 1).pom.xml
 添加
 ```
 <dependency>
@@ -44,20 +95,23 @@ mybatis:
     <artifactId>spring-boot-starter-aop</artifactId>
 </dependency>
 ```
-#### 2. 1.启动类
+#### 2).启动类
 添加
 ```
 @EnableTransactionManagement   //开启事务
 ```
-#### 事务配置文件 
+#### 3).事务配置文件 
 添加事务配置类---> `MyTransactionConfig`
 
+### 3.事务测试
+当事务设置为REQUIRED时,
+try-catch,会导致事务失效,不能回滚
+try-catch-throw,事务不会失效,可以回滚.
+简单测试,当项目中使用的时候请,自己做测试
 
 
 
-
-
-## @Transactional 注解的属性介绍
+## 四.@Transactional 注解的属性介绍
 
 #### value 和 transactionManager
 当配置了多个事务管理器时，可以使用该属性指定选择哪个事务管理器.
