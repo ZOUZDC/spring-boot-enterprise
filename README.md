@@ -5,13 +5,14 @@
 |1|集成Mybatils和MybatisPlus|集成Mybatils和事务测试|90%||
 
 
-### Mybatis整合代码的位置
+
+## Mybatis整合代码的位置
 #### 1.启动类
 添加
 ```
 @MapperScan("zdc.enterprise.mapper") //mapper的接口包路径
 ```
-### application.yml配置类
+#### application.yml配置类
 ```
 mybatis:
   mapper-locations: "classpath:/mappers/*Mapper.xml"  //mapper.xml位置
@@ -20,20 +21,43 @@ mybatis:
     use-generated-keys: true                          //使用数据库自增主键
 ```
 
-### 事务代码位置
+
+## 事务代码位置
+### 注解式事务
 #### 1.启动类
 添加
 ```
 @EnableTransactionManagement   //开启事务
 ```
-### Service实现类
+#### Service实现类
 
 添加符合场景的 `@Transactional`,
 可以直接在class上面添加@Transactional,然后在非事务方法上添加`@Transactional(propagation=Propagation.SUPPORTS)`
 也可以只在事务方法上添加`@Transactional(propagation=Propagation.REQUIRED)` 不过容易忘
 
+### 编程式事务
+#### 1.pom.xml
+添加
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+#### 2. 1.启动类
+添加
+```
+@EnableTransactionManagement   //开启事务
+```
+#### 事务配置文件 
+添加事务配置类---> `MyTransactionConfig`
 
-### @Transactional 注解的属性介绍
+
+
+
+
+
+## @Transactional 注解的属性介绍
 
 #### value 和 transactionManager
 当配置了多个事务管理器时，可以使用该属性指定选择哪个事务管理器.
