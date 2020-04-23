@@ -15,8 +15,12 @@ spring:
     username: root
     password: 123123
 ```
+使用了profile 在application.yml中查看对应的具体实现
+
 #### 2.配置hikari连接池
 
+默认hikariCP 无需改动
+
 ```
 spring:
   datasource:
@@ -32,21 +36,58 @@ spring:
       read-only: false      # 是否是只读
 ```
 
-#### 2.配置Druid连接池
+#### 2.配置Druid连接池及监控
+pom.xml中添加
+```
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>druid-spring-boot-starter</artifactId>
+    <version>1.1.14</version>
+</dependency>
+```
+排除`spring-boot-starter-jdbc`的HikariCP
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jdbc</artifactId>
+    <exclusions>
+        <!--HikariCP 连接池-->
+        <!--<exclusion>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </exclusion>-->
+    </exclusions>
+</dependency>
 
 ```
-spring:
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource #当前使用的数据源 Hikari ,当为Hikari的时候可以不写
-    hikari:
-      minimum-idle: 1 #	池中维护的最小空闲连接数 默认10 根据实际情况来
-      maximum-pool-size: 10 # 池中最大连接数    根据实际情况来
-      auto-commit: true  # 自动提交从池中返回的连接
-      idle-timeout: 600000 # 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟
-      max-lifetime: 1800000 # 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL
-      connection-timeout: 30000   # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒
-      connection-test-query: select 1
-      read-only: false      # 是否是只读
+
+```
+   spring:
+     datasource:
+       type: com.alibaba.druid.pool.DruidDataSource #当前使用的数据源 druid
+       druid:
+         initial-size: 2 #初始化连接大小 根据实际情况来
+         min-idle: 1 #	池中维护的最小空闲连接数 默认10 根据实际情况来
+         max-active: 10 # 池中最大连接数    根据实际情况来
+         default-auto-commit: true # 自动提交从池中返回的连接
+         test-on-borrow: true #申请连接时执行validationQuery检测连接是否有效。
+         max-evictable-idle-time-millis: 1800000 # 最大生存的时间毫秒
+         min-evictable-idle-time-millis: 300000  #最小生存的时间毫秒
+         validation-query: select 1
+         default-read-only: false  # 是否只读
+         aop-patterns: zdc.enterprise.service.impl.*.* # 监控切入点
+         filter:               #过滤器配置
+           stat:
+             enabled: true
+             merge-sql: true
+             slow-sql-millis: 1
+         stat-view-servlet:    # 监听配置
+           enabled: true              # 是否启用监控
+           url-pattern: /druid/*      #访问路径
+           reset-enable: false
+           login-username: 123123     #访问账号
+           login-password: 123123
+
 ```
 
 ## 二.Mybatis整合代码的位置
