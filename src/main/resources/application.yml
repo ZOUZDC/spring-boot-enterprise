@@ -20,11 +20,22 @@ spring:
 
 
 
+############### mybatis 配置  (使用mybatisPlus配置即可)##############
+#mybatis:
+#  mapper-locations: "classpath:/mappers/*Mapper.xml"
+#  type-aliases-package: zdc.enterprise.entity
+#  configuration:
+#    use-generated-keys: true
+#
 ############## mybatis 配置 ##############
-mybatis:
-  mapper-locations: "classpath:/mappers/*Mapper.xml"
+
+
+############## mybatisPlus 配置 (官方文档:mybatis中的配置 在mybatisplus上均可配置)##############
+mybatis-plus:
+  mapper-locations: classpath:/mappers/*Mapper.xml
   type-aliases-package: zdc.enterprise.entity
   configuration:
     use-generated-keys: true
-
-############## mybatis 配置 ##############
+  global-config:
+    db-config:
+      id-type: auto # 主键自增
