@@ -129,15 +129,13 @@ public class ResultVo implements Serializable {
         if(length %2 ==0){
             HashMap<Object, Object> map = new HashMap<>();
             for (int i = 0; i < length; i+=2) {
-               map.put(data[i],data[i+1]);
+                map.put(data[i],data[i+1]);
             }
             return map;
         }
         return "";
 
     }
-
-
 
 
 }
