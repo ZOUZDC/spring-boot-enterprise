@@ -15,14 +15,14 @@ public class AllExceptionHandler{
 
     @ExceptionHandler(value =CustomException.class)
     public ResultVo customExceptionHandle(Exception e){
-        log.info("------------------自定义异常---------------------'");
+        log.info("自定义异常: {}",e);
         return ResultVo.fail(e.getMessage());
     }
 
 
     @ExceptionHandler(value = Exception.class)
     public ResultVo exceptionHandle(Exception e){
-        log.info("------------------未知的异常---------------------{}", e);
+        log.info("未知的异常: {}",e);
         //三张格式根据喜好选座位
         //return ResultVo.sysFail(e.getClass().getName());
         //return ResultVo.sysFail("系统异常",e.getClass().getName());
@@ -39,7 +39,7 @@ public class AllExceptionHandler{
      */
     @ExceptionHandler(value = org.springframework.validation.BindException.class)
     public ResultVo bindExceptionHandle(BindException ex){
-        log.info("------------------未知的异常---------------------'");
+        log.info("用户数据参数异常: {}",ex);
         StringBuffer defaultMessage = new StringBuffer("参数异常");
 
         List<ObjectError> list = ex.getBindingResult().getAllErrors();

@@ -1,5 +1,6 @@
 package zdc.enterprise.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
+@Slf4j
 public class OtherExceptionHandler implements ErrorController {
     @Override
     public String getErrorPath() {
@@ -29,6 +31,7 @@ public class OtherExceptionHandler implements ErrorController {
 
         //针对MyFilter中的CustomException异常
         if(statusCode==500 && request.getAttribute("javax.servlet.error.exception") instanceof CustomException){
+            log.warn("filter异常: {}",((Exception)request.getAttribute("javax.servlet.error.exception")).getMessage());
             return ResultVo.fail(((Exception)request.getAttribute("javax.servlet.error.exception")).getMessage());
         }
 
@@ -37,6 +40,7 @@ public class OtherExceptionHandler implements ErrorController {
         } catch (Exception ex) {
             errorMsg = "服务器内部错误:" + statusCode;
         }
+        log.error("服务器内部错误,错误码:{}",statusCode);
         return ResultVo.sysFail(errorMsg);
     }
 }
