@@ -8,7 +8,6 @@ public class AutoCode {
 
 
         //建议能在模版上写死的就不要配置变量
-        //没有模版之间的关联关系.如果需要的话参照simple/relation-controller.ftl 在模版中实现
 
 
         TempConfig tempConfig = new TempConfig();
@@ -22,7 +21,7 @@ public class AutoCode {
 
 
         //需要生成文件的表
-        tempConfig.tableNames = new String[]{"student"};
+        tempConfig.tableNames = new String[]{"student2"};
 
         //全局自定义参量
         //tempConfig.setCustomParams();
@@ -31,59 +30,70 @@ public class AutoCode {
         //需要生成的模版路径和对应的路径
         ArrayList<TempInfo> templateList = new ArrayList<>();
 
-        String parentPath ="src/main/resources/templates/simple/";
+        String templatesPath ="src/main/resources/templates/simple/";
 
-     /*   templateList.add(
-                //模版路径及其对应的文件存放路径
-                new TempInfo("src/main/resources/templates/lombok/controller.ftl",
-                        "src/main/java/zdc/enterprise/controller/",
-                        "",
-                        "Controller",
-                        ".java")
-                        //模版的自定义参量
-                        .addParam("interfaceName","zdc.enterprise.controller")
-        );*/
+        String mapperInterfacePath ="src/main/java/zdc/enterprise/mapper/";
 
-      /*  templateList.add(
-                //模版路径及其对应的文件存放路径
-                new TempInfo("src/main/resources/templates/simple/relation-controller.ftl",
-                        "src/main/java/zdc/enterprise/controller/",
-                        "",
-                        "Controller",
-                        ".java")
-                        //模版的自定义参量
-                        .addParam("interfaceName","zdc.enterprise.controller")
-        );*/
 
-      /*  templateList.add(
-                //模版路径及其对应的文件存放路径
-                new TempInfo("src/main/resources/templates/simple/entity.ftl",
-                        "src/main/java/zdc/enterprise/entity/",
-                        "",
-                        "",
-                        ".java")
-                        //模版的自定义参量
-                        .addParam("interfaceName","zdc.enterprise.entity")
-        );*/
+        //entity
+        templateList.add( new TempInfo(templatesPath+"entity.ftl", "src/main/java/zdc/enterprise/entity/", ".java"));
+
+        //Dto
+        templateList.add( new TempInfo(templatesPath+"dto.ftl", "src/main/java/zdc/enterprise/dto/", "","Dto",".java"));
+
+        //controller
+        templateList.add(
+                new TempInfo(templatesPath+"controller.ftl", "src/main/java/zdc/enterprise/controller/",
+                        "", "Controller", ".java")
+        );
+
+        //service
+        templateList.add(
+                new TempInfo(templatesPath+"service.ftl", "src/main/java/zdc/enterprise/service/",
+                        "", "Service", ".java")
+        );
+
+        //serviceImpl
+        templateList.add(
+                new TempInfo(templatesPath+"serviceImpl.ftl", "src/main/java/zdc/enterprise/service/impl/",
+                        "", "ServiceImpl", ".java")
+        );
+
+        //mapperInterface
+        templateList.add(
+                new TempInfo(templatesPath+"mapperInterface.ftl", "src/main/java/zdc/enterprise/mapper/",
+                        "", "Mapper", ".java")
+        );
+
 
         templateList.add(
                 //模版路径及其对应的文件存放路径
-                new TempInfo("src/main/resources/templates/simple/mapper.ftl",
-                        "src/main/resources/mappers/",
-                        "",
-                        "Mapper",
-                        ".xml")
+                new TempInfo(templatesPath+"mapper.ftl","src/main/resources/mappers/",
+                        "","Mapper",".xml")
                         //模版的自定义参量
                         .addParam("entityPath","zdc.enterprise.entity")
                         .addParam("mapperPath","zdc.enterprise.mapper")
         );
+
+
 
         //开始生成
         new TempFactory(tempConfig,templateList).start();
 
     }
 
-
+/* 完整的一个模版的实现
+ templateList.add(
+        //模版路径及其对应的文件存放路径
+        new TempInfo(templatesPath+"controller.ftl",
+                "src/main/java/zdc/enterprise/controller/",
+                "",
+                "Controller",
+                ".java")
+                //模版的自定义参量
+                .addParam("interfaceName","zdc.enterprise.controller")
+        );
+*/
 
 
 }

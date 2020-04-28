@@ -1,21 +1,18 @@
-package ${interfaceName?lower_case};
+package zdc.enterprise.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ${sysFieldTableName} {
 
 <#list sysParams as param>
-	// ${param.fieldNote}
+    // ${param.fieldNote}
     private ${param.fieldType} ${param.fieldName};
 
 </#list>
-<#list sysParams as param>
-	public void set${param.fieldName?cap_first}(${param.fieldType} ${param.fieldName}){
-        this.${param.fieldName} = ${param.fieldName};
-    }
 
-    public ${param.fieldType} get${param.fieldName?cap_first}(){
-        return this.${param.fieldName};
-    }
-
-</#list>
 }

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /***
- * 登录拦截器
+ * 拦截器
  */
 
 @Component

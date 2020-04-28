@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import zdc.enterprise.constants.Dto;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentGroupDto {
+public class StudentDto {
 
     //主键id
     @NotNull(message = "缺少id的信息", groups = {Dto.Update.class, Dto.Delete.class})
@@ -25,23 +25,22 @@ public class StudentGroupDto {
     private Long id;
 
     //姓名
-    @NotEmpty(message = "姓名不能为空", groups = Dto.Save.class)
     @Pattern(regexp ="^([\\u4e00-\\u9fa5]+|[a-zA-Z.\\s]+)$", message = "姓名格式有误")
     @Length(min =2, message = "姓名长度应大于{min}位")
     @Length(max =10, message = "姓名长度应小于{max}位")
     private String name;
 
     //年龄
-    @NotNull(message = "年龄不能为空", groups = Dto.Save.class)
     @Range(min = 0,max = 150, message = "年龄应在{min}~{max}之间")
     private Integer age;
 
     //出生日期
-    @NotNull(message = "出生日期不能为空", groups = Dto.Save.class)
     private LocalDate birthdate;
 
     //零花钱
+    @Min(value = 0,message = "你需要有点钱,即使骗骗我也好...")
     private BigDecimal money;
 
-
+    //其他信息
+    private String info;
 }

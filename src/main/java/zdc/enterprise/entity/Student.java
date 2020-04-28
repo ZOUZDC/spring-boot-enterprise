@@ -27,5 +27,8 @@ public class Student {
     //零花钱
     private BigDecimal money;
 
+    //其他信息
+    private String info;
+
 
 }

@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * 过滤器 可以做跨域 对参数处理参数
+ * 登陆验证根据需要在ParamsFilter或者MyHandlerInterceptor中做
+ */
 @Component
 @Order(10)
 @WebFilter(filterName = "ParamsFilter", urlPatterns = "/**")
@@ -38,8 +42,8 @@ public class ParamsFilter implements Filter {
         ParameterRequestWrapper request = new ParameterRequestWrapper(req);
 
         Map map = new LinkedHashMap<>(req.getParameterMap());
-        map.put("token",new String[]{"token1"});
-        map.remove("user");
+        //map.put("token",new String[]{"token1"});
+        //map.remove("user");
 
         request.setParameterMap(map);
 

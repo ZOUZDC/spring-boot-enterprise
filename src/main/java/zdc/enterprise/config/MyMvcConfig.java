@@ -65,9 +65,10 @@ public class MyMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        FastJsonHttpMessageConverter fastJsonHttpMessageConverter =new FastJsonHttpMessageConverter();
-        FastJsonConfig config = new FastJsonConfig();
+        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        FastJsonConfig config = fastJsonHttpMessageConverter.getFastJsonConfig();
         config.setCharset(Charset.forName("UTF-8"));
+        config.setDateFormat("yyyy-MM-dd HH:mm:ss");
         config.setSerializerFeatures(
                 SerializerFeature.WriteMapNullValue,        // 是否输出值为null的字段,默认为false,我们将它打开
                 SerializerFeature.WriteNullListAsEmpty,     // 将Collection类型字段的字段空值输出为[]
@@ -76,7 +77,6 @@ public class MyMvcConfig implements WebMvcConfigurer {
                 SerializerFeature.WriteDateUseDateFormat,
                 SerializerFeature.DisableCircularReferenceDetect    // 禁用循环引用
         );
-        config.setDateFormat("yyyy-MM-dd HH:mm:ss");
 
         fastJsonHttpMessageConverter.setFastJsonConfig(config);
         // 添加支持的MediaTypes;不添加时默认为*/*,也就是默认支持全部 但是springboot会报错

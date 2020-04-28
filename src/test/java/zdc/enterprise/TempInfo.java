@@ -95,7 +95,7 @@ public class TempInfo {
         return this.customParams;
     }
 
-    public TempInfo addParam(String key,Object value){
+    public TempInfo addParam(String key, Object value){
         this.customParams.put(key,value);
         return this;
     }

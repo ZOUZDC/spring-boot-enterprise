@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${mapperPath?lower_case}.${sysFieldTableName}">
 
-<#--此处的type 需要根据项目填写-->
+    <#--此处的type 需要根据项目填写-->
     <resultMap type="${entityPath?lower_case}.${sysFieldTableName}" id="BaseResultMap">
         <#list sysParams as param>
             <result column="${param.columnName}" property="${param.fieldName}" />
@@ -25,7 +25,7 @@
         <#list sysParams as param>
             <#if param.fieldType == "String">
                 <if test="${param.fieldName} != null and ${param.fieldName} != ''">
-                    AND ${param.columnName} like concat ('%', ${r'#{'}${param.fieldName}} , '%' )   /*请根据情况去判断是= 还是like 并删掉此句*/
+                    AND ${param.columnName} like concat ('%', '${r'#{'}${param.fieldName}}' , '%' )   /*请根据情况去判断是= 还是like 并删掉此句*/
                 </if>
             <#elseif param.fieldType == "Date">
                 <if test="${param.fieldName}Start != null">
@@ -48,12 +48,12 @@
     <update id="update${sysFieldTableName}ById">
         UPDATE  `${sysTableName}` SET
         <#list sysParams as param>
-          <#if param.columnName != "id">
-               `${param.columnName}`=${r'#{'}${param.fieldName}}<#if param_has_next>,</#if>
-          </#if>
+            <#if param.columnName != "id">
+                `${param.columnName}`=${r'#{'}${param.fieldName}}<#if param_has_next>,</#if>
+            </#if>
         </#list>
-         where
-         id =${r'#{id}'}
+        where
+        id =${r'#{id}'}
     </update>
 
 
@@ -62,15 +62,15 @@
     <insert id="save${sysFieldTableName}">
         INSERT INTO `${sysTableName}` (
         <#list sysParams as param>
-        <#if param.columnName != "id">
-          `${param.columnName}`<#if param_has_next>,</#if>
-        </#if>
+            <#if param.columnName != "id">
+                `${param.columnName}`<#if param_has_next>,</#if>
+            </#if>
         </#list>
         ) values (
         <#list sysParams as param>
-        <#if param.columnName != "id">
-           ${r'#{'}${param.fieldName}}<#if param_has_next>,</#if>
-        </#if>
+            <#if param.columnName != "id">
+                ${r'#{'}${param.fieldName}}<#if param_has_next>,</#if>
+            </#if>
         </#list>
         )
     </insert>

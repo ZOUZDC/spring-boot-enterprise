@@ -6,3 +6,36 @@ spring:
   devtools:
     restart:
       enabled: true
+
+  profiles:
+    active: hikari
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver #mysql 8.0
+    url: jdbc:mysql:///zdc_test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123123
+
+
+
+
+############### mybatis 配置  (使用mybatisPlus配置即可)##############
+#mybatis:
+#  mapper-locations: "classpath:/mappers/*Mapper.xml"
+#  type-aliases-package: zdc.enterprise.entity
+#  configuration:
+#    use-generated-keys: true
+#
+############## mybatis 配置 ##############
+
+
+############## mybatisPlus 配置 (官方文档:mybatis中的配置 在mybatisplus上均可配置)##############
+mybatis-plus:
+  mapper-locations: classpath:/mappers/*Mapper.xml
+  type-aliases-package: zdc.enterprise.entity
+  configuration:
+    use-generated-keys: true
+  global-config:
+    db-config:
+      id-type: auto # 主键自增
