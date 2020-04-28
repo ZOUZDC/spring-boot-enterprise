@@ -9,3 +9,6 @@
 |5|简单代码生成|根据项目生成指定的代码|100%||
 |6|集成Mybatils和MybatisPlus|集成Mybatils和MybatisPlus|90%||
 
+
+实现了针对于本项目的模版类
+
