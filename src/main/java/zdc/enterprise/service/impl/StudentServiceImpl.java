@@ -11,6 +11,7 @@ import zdc.enterprise.service.StudentService;
 
 @Service
 @Slf4j
+
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
 
     @Autowired(required = false)

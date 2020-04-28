@@ -6,6 +6,5 @@ import zdc.enterprise.entity.Student;
 
 public interface StudentService extends IService<Student> {
 
-
     void savePlus(Student vo);
 }

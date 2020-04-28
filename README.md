@@ -12,3 +12,4 @@
 
 实现了针对于本项目的模版类
 
+事务规则请看`MyTransactionConfig`

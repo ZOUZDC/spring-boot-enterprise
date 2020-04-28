@@ -5,7 +5,7 @@ spring:
     name: "zdc"
   devtools:
     restart:
-      enabled: true
+      enabled: true # 正式环境请关闭 并清除 maven中对应的包
 
   profiles:
     active: hikari
