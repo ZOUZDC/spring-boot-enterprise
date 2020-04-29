@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerTemplateAvailabilityProvider;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -13,7 +14,8 @@ import javax.sql.DataSource;
 
 @ComponentScan({"zdc.enterprise.*"})
 @EnableTransactionManagement
-@SpringBootApplication
+//因为freemark是用来生成模版的不需要自动配置
+@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration.class})
 @MapperScan("zdc.enterprise.mapper") //mapper的接口包路径
 @Slf4j
 public class SpringBootEnterpriseApplication implements CommandLineRunner {

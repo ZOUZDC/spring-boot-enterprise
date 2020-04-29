@@ -44,14 +44,16 @@
 
 
     <!--指定某些类只输出某种级别-->
+    <logger name="io.lettuce.core" level="WARN"/>
     <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    <logger name="o.s.data.redis.core.RedisConnectionUtils" level="WARN"/>
     <logger name="org.apache.http" level="WARN"/>
     <logger name="ch.qos.logback" level="WARN"/>
     <logger name="o.s.c.annotation" level="INFO"/>
     <logger name="org.springframework.jndi" level="INFO"/>
 
     <!-- 日志输出级别 -->
-    <root level="debug">
+    <root level="info">
 
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE_ROLL"/>

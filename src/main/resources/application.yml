@@ -7,6 +7,7 @@ spring:
     restart:
       enabled: true # 正式环境请关闭 并清除 maven中对应的包
 
+
   profiles:
     active: hikari
 
@@ -16,7 +17,11 @@ spring:
     url: jdbc:mysql:///zdc_test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123123
-
+  redis:
+    database: 0
+    host: 192.168.253.6
+    port: 6379
+    password: testdb
 
 
 

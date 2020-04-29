@@ -47,6 +47,7 @@
             </exclusions>
         </dependency>
 
+        <!--项目上线 即删除-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -98,8 +99,14 @@
             <version>3.3.1.tmp</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
-        <!--模版-->
+
+
+ <!--      freemark模版使用 只有新增表的时候开启-->
         <dependency>
             <groupId>freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -120,6 +127,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
