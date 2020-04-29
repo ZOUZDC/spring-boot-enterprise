@@ -38,8 +38,8 @@ public class ParamsFilter implements Filter {
         ParameterRequestWrapper request = new ParameterRequestWrapper(req);
 
         Map map = new LinkedHashMap<>(req.getParameterMap());
-        map.put("token",new String[]{"token1"});
-        map.remove("user");
+        //map.put("token",new String[]{"token1"});
+        //map.remove("user");
 
         request.setParameterMap(map);
 

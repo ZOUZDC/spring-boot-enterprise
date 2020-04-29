@@ -6,3 +6,15 @@ spring:
   devtools:
     restart:
       enabled: true
+  redis:
+    database: 0
+    host: 192.168.253.6
+    port: 6379
+    password: testdb
+    jedis:
+      pool:
+         max-wait: -1
+         min-idle: 0
+         max-active: 10
+         max-idle: 10
+
