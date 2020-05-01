@@ -48,6 +48,9 @@ public class MysqlUtil {
 
         List<Map<String,String>> columns = new ArrayList<Map<String,String>>();
     	try{
+            if (con.isClosed()) {
+                con = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+            }
             Statement stmt = con.createStatement();
              
             String sql = "select column_name, data_type, column_key, is_nullable, column_comment from information_schema.columns where table_name='" + tableName + "'and table_schema='" + database+ "' ORDER BY ORDINAL_POSITION ";
