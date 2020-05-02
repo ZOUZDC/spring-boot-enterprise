@@ -30,7 +30,7 @@ public class OtherExceptionHandler implements ErrorController {
         }
 
         //针对MyFilter中的CustomException异常
-        if(statusCode==5001 && request.getAttribute("javax.servlet.error.exception") instanceof CustomException){
+        if(statusCode==500 && request.getAttribute("javax.servlet.error.exception") instanceof CustomException){
             log.warn("filter异常: {}",((Exception)request.getAttribute("javax.servlet.error.exception")).getMessage());
             return ResultVo.fail(((Exception)request.getAttribute("javax.servlet.error.exception")).getMessage());
         }
