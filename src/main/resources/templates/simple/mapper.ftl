@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="${mapperPath?lower_case}.${sysFieldTableName}">
+<mapper namespace="${mapperPath?lower_case}.${sysFieldTableName}Mapper">
 
     <#--此处的type 需要根据项目填写-->
     <resultMap type="${entityPath?lower_case}.${sysFieldTableName}" id="BaseResultMap">
