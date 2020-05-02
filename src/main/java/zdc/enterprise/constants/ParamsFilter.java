@@ -37,6 +37,13 @@ public class ParamsFilter implements Filter {
             return ;
         }
 
+    /*    if(false){
+            servletRequest.setAttribute("javax.servlet.error.status_code",5001);
+            servletRequest.setAttribute("javax.servlet.error.status_msg","token");
+            servletRequest.getRequestDispatcher("/error").forward(servletRequest, servletResponse);
+            return ;
+        }*/
+
 
         //添加token 删除user
         ParameterRequestWrapper request = new ParameterRequestWrapper(req);
