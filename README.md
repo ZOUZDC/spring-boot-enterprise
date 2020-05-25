@@ -35,4 +35,7 @@
 
 ## 三.入参时间类型的处理
 实现了 LocalDate,LocalDateTime,LocalTime 正确格式的入参数据的转换
-实现了 Date类型 `yyyy-MM-dd` ,`yyyy-MM-dd HH:mm:ss` ,`second` ,`millsecond` 类型 正确格式的入参的数据转换  
+实现了 Date类型 `yyyy-MM-dd` ,`yyyy-MM-dd HH:mm:ss` ,`second` ,`millsecond` 类型 正确格式的入参的数据转换 ,如有需要自己另行添加 
+
+## 四.validationde的group类 --- zdc.enterprise.constants.Dto
+需要继承默认的Default ,否则只会验证包含对应groups的参数
