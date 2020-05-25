@@ -2,9 +2,10 @@ package zdc.enterprise.constants;
 
 import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
-import java.io.IOException;
-import java.util.Random;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 @Component
 public class MyFilter implements Filter {
