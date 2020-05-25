@@ -9,13 +9,16 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * 过滤器 可以做跨域 对参数处理参数
+ *
  * 登陆验证根据需要在ParamsFilter或者MyHandlerInterceptor中做
  */
 @Component
+//数值小的在前面
 @Order(10)
 @WebFilter(filterName = "ParamsFilter", urlPatterns = "/**")
 @Slf4j
@@ -28,42 +31,15 @@ public class ParamsFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
+        String url = ((HttpServletRequest) servletRequest).getRequestURI();
+        System.out.println(url);
         System.out.println("ParamsFilter");
-        //一个简陋的过滤
-        HttpServletRequest req = (HttpServletRequest) servletRequest;
-        String url = req.getRequestURI();
-        if(checkExcludeUrl(url)|| "/".equals(url)){
-            filterChain.doFilter(servletRequest, servletResponse);
-            return ;
-        }
-        if(false){
-            throw new CustomException(ResultCode.NO_LOGIN);
-        }
+        filterChain.doFilter(servletRequest, servletResponse);
+        return ;
 
-
-
-        //添加token 删除user
-        ParameterRequestWrapper request = new ParameterRequestWrapper(req);
-
-        Map map = new LinkedHashMap<>(req.getParameterMap());
-        //map.put("token",new String[]{"token1"});
-        //map.remove("user");
-
-        request.setParameterMap(map);
-
-        filterChain.doFilter(request, servletResponse);
     }
 
 
-
-    //检查是否是需要过滤的连接
-    private boolean checkExcludeUrl(String requestURI) {
-        for (String pattern : excludePathPatterns) {
-            if (requestURI!=null && requestURI.contains(pattern)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

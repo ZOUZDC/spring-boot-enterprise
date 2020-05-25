@@ -25,7 +25,6 @@ public class MyHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest rq, HttpServletResponse response, Object handler ) throws Exception {
-        log.info("redis hasKey {}",redisTemplate.hasKey("123"));
         return true;
     }
 
