@@ -176,7 +176,7 @@ public class TempFactory {
                 this.tempConfig.getTemplate(tempInfo.getTemplatePath()).process(tempMap,out);
                 out.flush();
                 out.close();
-                System.out.println("--------------------"+sysFieldTableName+"已生成--------------------");
+                System.out.println("--------------------"+sysFieldTableName+"已生成,路径在:"+file.getAbsolutePath()+"-------------------");
             }catch (IOException | TemplateException e){
                 System.err.println("--------------------模版生成文件存在问题--------------------");
                 e.printStackTrace();

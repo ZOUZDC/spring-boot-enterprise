@@ -1,4 +1,4 @@
-package ${interfaceName?lower_case};
+package ${basePackage}.${dtoName};
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ${sysFieldTableName} {
+public class ${sysFieldTableName}Dto {
 
 <#list sysParams as param>
     // ${param.fieldNote}

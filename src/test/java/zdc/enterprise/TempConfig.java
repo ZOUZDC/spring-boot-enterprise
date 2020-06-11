@@ -45,7 +45,7 @@ public class TempConfig {
     /***
      * 需要在模版中使用的全局变量,可以替换程序默认变量,
      */
-    private Map<String,Object> customParams =new HashMap<>();
+    private Map<String,String> customParams =new HashMap<>();
 
 
     /**
@@ -84,12 +84,19 @@ public class TempConfig {
         this.configuration = configuration;
     }
 
-    public Map<String, Object> getCustomParams() {
+    public Map<String, String> getCustomParams() {
         this.customParams.remove("sysParams");
         return  this.customParams;
     }
+    public String getCustomParams(String key) {
+        return  this.getCustomParams().get(key);
+    }
 
-    public void setCustomParams(Map<String, Object> customParams) {
+    public void setCustomParams(Map<String, String> customParams) {
         this.customParams = customParams;
+    }
+    public TempConfig setCustomParams(String key ,String value) {
+        this.customParams.put(key,value);
+        return this;
     }
 }
