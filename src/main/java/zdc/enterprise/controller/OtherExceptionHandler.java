@@ -19,6 +19,10 @@ public class OtherExceptionHandler implements ErrorController {
 
     @RequestMapping("/error")
     public ResultVo otherError(HttpServletRequest request, HttpServletResponse response) {
+
+        //将所有的错误请求都处理成200 原因:部分前端页面识别http500的状态时会报错,实际上该接口有实际意义
+        response.setStatus(200);
+
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
         String errorMsg = "出现错误";
