@@ -3,6 +3,7 @@ package zdc.enterprise.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import zdc.enterprise.config.formatter.DateFormatter;
 import zdc.enterprise.config.formatter.LocalDateFormatter;
@@ -17,6 +19,7 @@ import zdc.enterprise.config.formatter.LocalDateTimeFormatter;
 import zdc.enterprise.config.formatter.LocalTimeFormatter;
 import zdc.enterprise.constants.MyHandlerInterceptor;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,9 @@ import java.util.List;
 @Configuration
 public class MyMvcConfig implements WebMvcConfigurer {
 
+
+    @Value("${publicPath}")
+    private String publicPath;
 
     //使用此方式注入interception 可以保证该类中调用的Autowired对象的使用
     @Bean
@@ -47,6 +53,25 @@ public class MyMvcConfig implements WebMvcConfigurer {
 
     }
 
+
+    /**
+     * 外部静态资源路径
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/webJar/**")
+                //内部资源 如果存在相同名字和路径的资源 以上面的为准
+                // .addResourceLocations("classpath:/static/")
+                //外部资源
+                .addResourceLocations("file:"+publicPath+"webJar"+ File.separator);
+
+        registry.addResourceHandler("/static/**")
+                //内部资源
+                .addResourceLocations("classpath:/static/")
+                //外部资源
+                .addResourceLocations("file:"+publicPath);
+    }
 
     /***
      * 添加拦截器

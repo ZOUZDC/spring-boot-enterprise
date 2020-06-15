@@ -18,9 +18,8 @@ import java.util.*;
  * 也可以在这里做跨域
  */
 @Component
-
 //数值小的在前面
-@Order(9)
+@Order(0)
 @WebFilter(filterName = "UrlFilter", urlPatterns = "/**")
 @Slf4j
 public class UrlFilter implements Filter {
@@ -35,56 +34,70 @@ public class UrlFilter implements Filter {
     ));
 
     //静态资源文件
-    public static List<String> webJarPathPatterns =new ArrayList<>(Arrays.asList(
+    private static List<String> staticPathPatterns =new ArrayList<>(Arrays.asList(
             "/static",
             "/webJar/"
 
     ));
 
     //转发或者重定向的资源
-    public static List<String> replacePathPatterns =new ArrayList<>(Arrays.asList(
-            "/static11",
-            "/webjar/"
 
-    ));
+    //配置的静态资源路径需要在MyMvcConfig 添加
+    private static Map<String,String> replacePathMap =new HashMap();
+    static{
+        replacePathMap.put("/","/webJar");
+        replacePathMap.put("/favicon.ico","/webJar/favicon.ico");
+    }
 
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
+
+    @Value("${server.servlet.context-path:}")
+    private String contextPath = "";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
+
+        //如果配置了context-path 则去掉
         String url = ((HttpServletRequest) servletRequest).getRequestURI();
-        if(contextPath!=null){
+        if(contextPath!=null&& !"".equals(contextPath)){
             url = url.substring(contextPath.length());
         }
+        log.info("filter.info1");
 
-        //转发重定向到其他路径
-        if("/webjar/webjar".equals(url)){
-            //重定向
-            ((HttpServletResponse)servletResponse).sendRedirect("/hello/test");
-            //转发
-            servletRequest.getRequestDispatcher("/web/favicon.ico").forward(servletRequest, servletResponse);
-            return;
-        }
-
-
-
-
-
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
-
-
-
-    //检查是否是需要过滤的连接
-    private boolean checkExcludeUrl(String requestURI) {
-        for (String pattern : excludePathPatterns) {
-            if (requestURI!=null && requestURI.contains(pattern)) {
-                return true;
+        //静态资源文件不拦截
+        for (String pathPattern : staticPathPatterns) {
+            if(Objects.equals(pathPattern, url)){
+                filterChain.doFilter(servletRequest, servletResponse);
+                return;
             }
         }
-        return false;
+
+        log.info("filter.info2");
+
+
+        //需要转发或者重定向的资源 ,这里根据需要2选一
+        for (Map.Entry<String, String> entry : replacePathMap.entrySet()) {
+            if(Objects.equals(entry.getKey(), url)){
+                //重定向
+                ((HttpServletResponse)servletResponse).sendRedirect(entry.getValue());
+                //转发
+                //servletRequest.getRequestDispatcher(entry.getValue()).forward(servletRequest, servletResponse);
+                return;
+            }
+        }
+
+        // 无需拦截的url
+        for (String pattern : excludePathPatterns) {
+            if (url.contains(pattern)) {
+                filterChain.doFilter(servletRequest, servletResponse);
+                return;
+            }
+        }
+
+        //添加属性,剩下的需要 做权限判断
+        servletRequest.setAttribute("xFilter","needMyFilter");
+        filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
 }
