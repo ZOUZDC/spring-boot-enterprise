@@ -15,22 +15,23 @@ import java.util.concurrent.Executor;
 @RestControllerAdvice //此注解表示开启了全局异常捕获 返回的信息写入到Response的Body中
 //@ControllerAdvice //此注解表示开启了全局异常捕获
 @Slf4j
-//public class AllExceptionHandler implements ResponseBodyAdvice {
 public class AllExceptionHandler{
-//public class AllExceptionHandler extends ResponseEntityExceptionHandler {  //ResponseEntityExceptionHandler此类中存在部分异常,适当的考虑重写
-
 
     @ExceptionHandler(value =CustomException.class)
     public ResultVo customExceptionHandle(Exception e){
-        log.info("------------------自定义异常---------------------'");
+        //这个地方应该去创建多个Exception类然后分类去捕获
+        log.error("自定义异常: {}",e);
         return ResultVo.fail(e.getMessage());
     }
 
 
     @ExceptionHandler(value = Exception.class)
     public ResultVo exceptionHandle(Exception e){
-        log.info("------------------未知的异常---------------------'");
-        return ResultVo.sysFail(e.getMessage());
+        log.error("未知的异常{}", e);
+        //三张格式根据喜好选座位
+        //return ResultVo.sysFail(e.getClass().getName());
+        //return ResultVo.sysFail("系统异常",e.getClass().getName());
+        return ResultVo.sysFail("系统异常",e.getClass().getName(),e.getStackTrace().length>0?e.getStackTrace()[0]:"");
 
     }
 

@@ -1,5 +1,6 @@
 package zdc.enterprise.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
+@Slf4j
 public class OtherExceptionHandler implements ErrorController {
     @Override
     public String getErrorPath() {
@@ -25,6 +27,9 @@ public class OtherExceptionHandler implements ErrorController {
 
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
+        //将所有的错误请求都处理成200 原因:部分前端页面识别http500的状态时会报错,实际上该接口有实际意义
+        response.setStatus(200);
+
         String errorMsg = "出现错误";
 
         if (statusCode == null) {
@@ -32,10 +37,12 @@ public class OtherExceptionHandler implements ErrorController {
         }
         //针对MyFilter中的转发异常
         if(statusCode==5001){
+            log.warn("Filter异常:{}",request.getAttribute("javax.servlet.error.status_msg"));
             return ResultVo.fail(""+request.getAttribute("javax.servlet.error.status_msg"));
         }
         //针对MyFilter中的CustomException异常
         if(statusCode==500 && request.getAttribute("javax.servlet.error.exception") instanceof CustomException){
+            log.warn("Filter异常:{}",((Exception)request.getAttribute("javax.servlet.error.exception")).getMessage());
             return ResultVo.fail(((Exception)request.getAttribute("javax.servlet.error.exception")).getMessage());
         }
 
@@ -44,6 +51,7 @@ public class OtherExceptionHandler implements ErrorController {
         } catch (Exception ex) {
             errorMsg = "服务器内部错误:" + statusCode;
         }
+        log.error("服务器错误,错误码:{}",statusCode);
         return ResultVo.sysFail(errorMsg);
     }
 }

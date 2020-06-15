@@ -24,6 +24,7 @@ public class MyFilter implements Filter {
                 return;
             }
             case 1:{
+                //通过此方式返回的异常数据的http状态码是500   DispatcherType.ERROR 需要处理
                 throw new CustomException("通过MyFilter,抛异常返回值");
             }
             case 2:{

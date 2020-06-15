@@ -99,7 +99,9 @@ public class AssignableTypesAdvice {}
 ##二,拦截404或者服务器错误等未进入controller的错误 -- zdc.enterprise.controller.OtherExceptionHandler
 
 ## 三,filter中的错误----zdc.enterprise.constants.MyFilter
-1),通过转发或者重定向到/error接口(未测试)
-2),抛异常然后通过OtherExceptionHandler返回数据
+1),通过转发或者重定向到/error接口
+
+2),抛异常然后通过OtherExceptionHandler返回数据, 需要将http处理成200 `response.setStatus(200);`
+
 3),通过直接向response中写数据返回,此处需要在之前做跨域
 
