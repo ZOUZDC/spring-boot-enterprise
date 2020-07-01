@@ -43,7 +43,7 @@ public class ParameterRequestWrapper extends HttpServletRequestWrapper {
         if(results!=null && results[0]!=null){
             return results[0].trim();
         }
-       return  null;
+        return  null;
     }
 
 
