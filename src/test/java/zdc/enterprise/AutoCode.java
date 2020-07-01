@@ -15,7 +15,6 @@ public class AutoCode {
 
     public static void main(String[] args) throws Exception {
 
-
         //建议能在模版上写死的就不要配置变量
         //没有模版之间的关联关系.如果需要的话参照simple/relation-controller.ftl 在模版中实现
 
@@ -36,6 +35,7 @@ public class AutoCode {
         tempConfig
 
                 .setCustomParams("basePackage","zdc.enterprise")//父包名 ,
+                .setCustomParams("basePackagePath","src\\main\\java\\zdc\\enterprise")//项目下父包名路径 ,
 
                 .setCustomParams("entityName","entity") //entity包名
                 .setCustomParams("dtoName","dto") //dto包名
@@ -48,26 +48,27 @@ public class AutoCode {
                 .setCustomParams("mapperName","mapper") //mapper包名
 
         ;
-        //mapperxml 的路径 TODO 需要根据自己的项目修改,正常情况虚无修改
+        //mapperxml 的路径 TODO 需要根据自己的项目修改,正常情况无需修改
         mapperXmlParentPath ="src/main/resources/mappers/";
 
 
         //此处需要注意, 如果是idea下多modules的项目,运行时需要在working directory 参数中添加该module名  TODO 需要根据自己的项目修改
-        templateParentPath ="src/main/resources/templates/simple/";
+        templateParentPath ="src/main/resources/templates/mybatisPlus/";
 
 
 
         //需要生成的模版信息
         ArrayList<TempInfo> templateList = new ArrayList<>();
 
-        templateList.add(entity());
+  /*
         templateList.add(dto());
-        templateList.add(controller());
+        templateList.add(controller());*/
+        templateList.add(entity());
         templateList.add(service());
         templateList.add(serviceImpl());
-        templateList.add(mapper());
+     /*   templateList.add(mapper());
         templateList.add(mapperXml());
-
+*/
 
         //开始生成
         new TempFactory(tempConfig,templateList).start();
@@ -97,7 +98,7 @@ public class AutoCode {
 
     private static TempInfo entity(){
         return  new TempInfo(templateParentPath+"entity.ftl",
-                tempConfig.getCustomParams("basePackage")+ File.separator+tempConfig.getCustomParams("entityName"),
+                tempConfig.getCustomParams("basePackagePath")+ File.separator+tempConfig.getCustomParams("entityName")+ File.separator,
                 ".java")
                  //模版的自定义参量
                 .addParam("cParams","可以自定义参量");
@@ -106,7 +107,7 @@ public class AutoCode {
 
     private static TempInfo dto(){
         return  new TempInfo(templateParentPath+"dto.ftl",
-                tempConfig.getCustomParams("basePackage")+ File.separator+tempConfig.getCustomParams("dtoName"),
+                tempConfig.getCustomParams("basePackagePath")+ File.separator+tempConfig.getCustomParams("dtoName")+ File.separator,
                 "","Dto",
                 ".java");
 
@@ -114,7 +115,7 @@ public class AutoCode {
 
     private  static TempInfo controller(){
      return  new TempInfo(templateParentPath+"controller.ftl",
-             tempConfig.getCustomParams("basePackage")+ File.separator+tempConfig.getCustomParams("controllerName"),
+             tempConfig.getCustomParams("basePackagePath")+ File.separator+tempConfig.getCustomParams("controllerName")+ File.separator,
                 "","Controller",
                 ".java");
 
@@ -122,7 +123,7 @@ public class AutoCode {
 
     private  static TempInfo service(){
         return  new TempInfo(templateParentPath+"service.ftl",
-                tempConfig.getCustomParams("basePackage")+ File.separator+tempConfig.getCustomParams("serviceName"),
+                tempConfig.getCustomParams("basePackagePath")+ File.separator+tempConfig.getCustomParams("serviceName")+ File.separator,
                 "","Service",
                 ".java");
 
@@ -130,16 +131,17 @@ public class AutoCode {
 
     private  static TempInfo serviceImpl(){
         String name = tempConfig.getCustomParams("serviceImplName");
-        String path =File.separator+"name";
-        if(name.indexOf(".")!=-1){
+        String path =File.separator+"serviceImplName";
+        String[] split = name.split("\\.");
+        if(split.length>1){
             path ="";
-            for (String p : name.split(".")) {
-                path+=File.separator+"p";
+            for (String p : split) {
+                path+=(File.separator+p);
             }
         }
 
         return  new TempInfo(templateParentPath+"serviceImpl.ftl",
-                tempConfig.getCustomParams("basePackage")+ path,
+                tempConfig.getCustomParams("basePackagePath")+ path+ File.separator,
                 "","ServiceImpl",
                 ".java");
 
@@ -147,7 +149,7 @@ public class AutoCode {
 
     private  static TempInfo mapper(){
         return  new TempInfo(templateParentPath+"mapperInterface.ftl",
-                tempConfig.getCustomParams("basePackage")+ File.separator+tempConfig.getCustomParams("mapperName"),
+                tempConfig.getCustomParams("basePackagePath")+ File.separator+tempConfig.getCustomParams("mapperName")+ File.separator,
                 "","Mapper",
                 ".java");
 
@@ -160,6 +162,7 @@ public class AutoCode {
                 ".xml");
 
     }
+
 
 
 
