@@ -11,7 +11,7 @@ public class Page<T> {
     //数据库开始的第一条
     private Long start;
     //是否分页 (主要用分页数据导出上,但是也需要考虑是否数据量过大,过大的话需要自己实现分页)
-    private boolean fenye =true;
+    private boolean page =true;
 
     //返回的数据列表 ,预留
     private List<T> list;
@@ -26,7 +26,7 @@ public class Page<T> {
     public Page(Long current, Long size) {
         this.current = current;
         this.size = size;
-        this.fenye =true;
+        this.page =true;
     }
 
     public Long getCurrent() {
@@ -59,13 +59,12 @@ public class Page<T> {
 
     }
 
-    public boolean isFenye() {
-        return fenye;
+    public boolean isPage() {
+        return page;
     }
 
-    public Page setFenye(boolean fenye) {
-        this.fenye = fenye;
-        return this;
+    public void setPage(boolean page) {
+        this.page = page;
     }
 
     public List<T> getList() {

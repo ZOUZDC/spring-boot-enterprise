@@ -2,8 +2,7 @@
 <configuration debug="false">
 
     <!--定义日志文件的存储地址 尽量不要在 LogBack 的配置中使用相对路径-->
-    <!--<property name="LOG_HOME" value="./logs" />-->
-    <property name="LOG_HOME" value="./logs/" />
+    <property name="LOG_HOME" value="${LOG_PATH:-.}" />
 
     <!--控制台日志， 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -12,11 +11,11 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
         <!-- 此日志文件只记录error级别的 -->
-      <!--  <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>error</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>-->
+        <!--  <filter class="ch.qos.logback.classic.filter.LevelFilter">
+              <level>error</level>
+              <onMatch>ACCEPT</onMatch>
+              <onMismatch>DENY</onMismatch>
+          </filter>-->
     </appender>
 
 
@@ -25,7 +24,7 @@
         <Prudent>true</Prudent>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名 每小时生成日志文件-->
-            <FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/bootLog.%d{yyyy-MM-dd-HH}.%i.log</FileNamePattern>
+            <FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}/asdfsdafasdf.%d{yyyy-MM-dd-HH}.%i.log</FileNamePattern>
             <!--日志文件保留天数-->
             <MaxHistory>30</MaxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -44,16 +43,14 @@
 
 
     <!--指定某些类只输出某种级别-->
-    <logger name="io.lettuce.core" level="WARN"/>
     <logger name="java.sql.PreparedStatement" level="DEBUG"/>
-    <logger name="o.s.data.redis.core.RedisConnectionUtils" level="WARN"/>
     <logger name="org.apache.http" level="WARN"/>
     <logger name="ch.qos.logback" level="WARN"/>
     <logger name="o.s.c.annotation" level="INFO"/>
     <logger name="org.springframework.jndi" level="INFO"/>
 
     <!-- 日志输出级别 -->
-    <root level="info">
+    <root level="debug">
 
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE_ROLL"/>
