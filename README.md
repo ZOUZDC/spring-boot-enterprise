@@ -39,3 +39,5 @@
 
 ## 四.validationde的group类 --- zdc.enterprise.constants.Dto
 需要继承默认的Default ,否则只会验证包含对应groups的参数
+
+## 五.validationde配置是否是快速失败模式
