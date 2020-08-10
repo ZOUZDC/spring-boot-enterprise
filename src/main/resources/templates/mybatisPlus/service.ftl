@@ -1,7 +1,7 @@
-package zdc.enterprise.service;
+package ${basePackage}.${serviceName};
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import zdc.enterprise.entity.${sysFieldTableName};
+import ${basePackage}.${entityName}.${sysFieldTableName};
 
 
 public interface ${sysFieldTableName}Service extends IService<${sysFieldTableName}> {

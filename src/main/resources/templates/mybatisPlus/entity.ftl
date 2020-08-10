@@ -1,4 +1,4 @@
-package zdc.enterprise.entity;
+package ${basePackage}.${entityName};
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

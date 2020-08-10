@@ -1,7 +1,7 @@
-package zdc.enterprise.mapper;
+package ${basePackage}.${mapperName};
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import zdc.enterprise.entity.${sysFieldTableName};
+import ${basePackage}.${entityName}.${sysFieldTableName};
 
 public interface ${sysFieldTableName}Mapper extends BaseMapper<${sysFieldTableName}> {
 

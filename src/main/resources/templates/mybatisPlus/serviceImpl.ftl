@@ -1,12 +1,12 @@
-package zdc.enterprise.service.impl;
+package ${basePackage}.${serviceImplName};
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import zdc.enterprise.entity.${sysFieldTableName};
-import zdc.enterprise.mapper.${sysFieldTableName}Mapper;
-import zdc.enterprise.service.${sysFieldTableName}Service;
+import ${basePackage}.${entityName}.${sysFieldTableName};
+import ${basePackage}.${mapperName}.${sysFieldTableName}Mapper;
+import ${basePackage}.${serviceName}.${sysFieldTableName}Service;
 
 
 @Service
