@@ -3,7 +3,8 @@
 
     <!--定义日志文件的存储地址 尽量不要在 LogBack 的配置中使用相对路径-->
     <!--<property name="LOG_HOME" value="./logs" />-->
-    <property name="LOG_HOME" value="./logs/" />
+    <!--根据application中的logging.file.path配置具体的日志目录-->
+    <property name="LOG_HOME" value="${LOG_PATH:-.}" />
 
     <!--控制台日志， 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -51,9 +52,9 @@
     <logger name="org.springframework.jndi" level="INFO"/>
 
     <!-- 日志输出级别 -->
-    <root level="error">
-   <!--  <appender-ref ref="STDOUT" />-->
-        <appender-ref ref="debug"/>
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE_ROLL"/>
     </root>
 
 </configuration>

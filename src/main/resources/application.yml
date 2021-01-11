@@ -3,3 +3,8 @@ server:
 spring:
   application:
     name: "zdc"
+
+
+logging:
+  file:
+    path: ./logs/
